@@ -27,12 +27,34 @@ To install them, run:
 pip install -r requirements.txt
 ```
 
+If you are working from the project folder, use the `requirements.txt` that lives alongside this `README.md`.
+
 ## How to run your Kedro pipeline
 
 You can run your Kedro project with:
 
 ```
 kedro run
+```
+
+## How to run with Docker
+
+Build the image from the project directory:
+
+```bash
+docker build -t free-bootcamp-mlacademy .
+```
+
+Run the default Kedro pipeline:
+
+```bash
+docker run --rm free-bootcamp-mlacademy
+```
+
+Open a shell in the container if you want to inspect the environment:
+
+```bash
+docker run --rm -it free-bootcamp-mlacademy bash
 ```
 
 ## How to test your Kedro project
