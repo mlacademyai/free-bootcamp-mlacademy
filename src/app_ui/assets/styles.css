@@ -1,0 +1,10 @@
+.card {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 16px;
+    border: 1px solid #e0e0e0;
+}
+
+.card-margin-top {
+    margin-top: 10px;
+}

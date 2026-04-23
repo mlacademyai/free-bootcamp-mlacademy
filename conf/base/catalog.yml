@@ -6,3 +6,20 @@
 train_data:
   type: pandas.ParquetDataset
   filepath: data/01_raw/bike_data_train.parquet
+
+
+# Inference data
+inference_data:
+  type: pandas.ParquetDataset
+  filepath: data/01_raw/bike_data_inference.parquet
+
+
+predictions_with_timestamps:
+  type: pandas.ParquetDataset
+  filepath: data/07_model_output/predictions.parquet
+
+
+# Inference batch - saved by entrypoint
+inference_batch:
+  type: pandas.ParquetDataset
+  filepath: data/03_primary/inference_batch.parquet

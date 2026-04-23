@@ -51,3 +51,21 @@ training:
 model_storage:
   path: data/06_models
   name: forecast_model
+
+
+ui:
+  actual_data_path: data/01_raw/bike_data_inference.parquet
+  predictions_path: data/07_model_output/predictions.parquet
+  update_interval_ms: 2000
+  default_lookback_hours: 24
+
+
+pipeline_runner:
+  batch_size: 30
+  model_path: data/06_models/latest_model
+  predictions_path: data/07_model_output/predictions.parquet
+  first_timestamp: '2012-06-01 00:00:00'
+  last_timestamp: '2012-08-11 15:00:00'
+  time_increment: 1h
+  num_steps_inference: 2000
+  inference_interval_seconds: 2

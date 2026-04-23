@@ -184,3 +184,52 @@ def save_model(
         # Use joblib for sklearn models
         joblib.dump(model, model_dir / f"{model_name}.pkl")
     return None
+
+
+def load_model(
+    model_type: str,
+    model_storage: Dict[str, Any],
+) -> Any:
+    """Load a model from disk.
+
+    Uses model-specific deserialization:
+    - CatBoost: native .cbm format
+    - Other models: joblib .pkl format
+
+    Args:
+        model_type: Type of model (for determining load format).
+        model_storage: Dictionary containing:
+            - path: Directory path where the model is stored.
+            - name: Model file name (without extension).
+
+    Returns:
+        Loaded model instance.
+    """
+    model_dir = Path(model_storage["path"])
+    model_name = model_storage["name"]
+    model_type = model_type.lower().strip()
+
+    if model_type in ["catboost", "cb"]:
+        # CatBoost has native deserialization
+        model = CatBoostRegressor()
+        model.load_model(str(model_dir / f"{model_name}.cbm"))
+    else:
+        # Use joblib for sklearn models
+        model = joblib.load(model_dir / f"{model_name}.pkl")
+
+    return model
+
+
+def load_data(df: pd.DataFrame) -> Tuple[pd.DataFrame, pd.Timestamp]:
+    """Load data and extract last timestamp."""
+    last_timestamp = pd.to_datetime(df["datetime"]).iloc[-1]
+    return df, last_timestamp
+
+
+def join_timestamps(
+    predictions: pd.DataFrame,
+    timestamps: pd.Timestamp,
+) -> pd.DataFrame:
+    """Join timestamp to predictions."""
+    predictions["datetime"] = timestamps
+    return predictions
