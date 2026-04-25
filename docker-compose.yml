@@ -1,0 +1,31 @@
+services:
+  # ML MODEL TRAINING SERVICE
+  ml-train:
+    build: .
+    command: ["python", "entrypoints/training.py"]
+    volumes:
+      - ./data:/app/data
+      - ./conf:/app/conf
+
+  # ML INFERENCE SERVICE
+  ml-inference:
+    build: .
+    command: ["python", "entrypoints/inference.py"]
+    volumes:
+      - ./data:/app/data
+      - ./conf:/app/conf
+    depends_on:
+      ml-train:
+        condition: service_completed_successfully
+
+  # WEB USER INTERFACE SERVICE
+  app-ui:
+    build: .
+    command: ["python", "entrypoints/app_ui.py"]
+    ports:
+      - "8050:8050"
+    volumes:
+      - ./data:/app/data
+      - ./conf:/app/conf
+    depends_on:
+      - ml-inference
